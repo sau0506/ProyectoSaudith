@@ -1,0 +1,8 @@
+Cedula: 71228300
+nombre: dennis
+apellido: saudith
+telefono: 3223108313
+modalidadEstudio: presencial
+cantidadAsignaturas: 5
+serial: 123456
+---------------------------------------
