@@ -3,18 +3,23 @@ import javax.swing.JOptionPane;
 
 public class GestorPrestamos {
     validarcadena vc = new validarcadena();
+    Importar i = new Importar();
     private ArrayList<EstudianteIngenieria> vectorIngenieros = new ArrayList<>();
     private ArrayList<EstudianteDiseno> vectorDisenadores = new ArrayList<>();
     private ArrayList<ComputadorPortatil> vectorPortatil = new ArrayList<>();
     private ArrayList<TabletaGrafica> vectorTableta = new ArrayList<>();
 
     public void registrarPrestamoIngenieria() {
-        String cedula, nombre, apellido, telefono;
+        String cedula, nombre, apellido, telefono, serial, marca;
         boolean esValida, esValido;
+        int numeroSemestre = 0;
+        float promedioAcumulado, tamano, precio;
+
+
 
         do {
             cedula = JOptionPane
-                    .showInputDialog("Ingrese la cédula del estudiante de ingeniería (que tenga entre 7/10 digitos)");
+                    .showInputDialog("Ingrese la cédula del estudiante de ingeniería (que tenga entre 5/10 digitos)");
             esValido = vc.esnumeroValido(cedula);
 
             if (!esValido) {
@@ -41,7 +46,6 @@ public class GestorPrestamos {
             }
         } while (!esValida);
 
-   
         do {
             telefono = JOptionPane.showInputDialog("Ingrese el teléfono del estudiante:");
             esValido = vc.esnumeroValido(telefono);
@@ -51,73 +55,337 @@ public class GestorPrestamos {
             }
         } while (!esValido);
 
-        int numeroSemestre = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el número de semestre cursado:"));
-        
-        float promedioAcumulado = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el promedio acumulado:"));
-        String serial = JOptionPane.showInputDialog("Ingrese el serial del computador portátil:");
+        do {
+            try {
+                numeroSemestre = Integer
+                        .parseInt(JOptionPane.showInputDialog("Ingrese el número de semestre cursado:"));
+
+                if (numeroSemestre <= 0 || numeroSemestre > 13) {
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese un número en el rango semestral (1-13).");
+                } else {
+                    // Código para cuando el número es válido y positivo
+                    JOptionPane.showMessageDialog(null, "Número de semestre ingresado: " + numeroSemestre);
+                }
+
+            } catch (NumberFormatException e) {
+                // Si se ingresa algo que no es un número
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un número válido.");
+                numeroSemestre = -1; // Se asigna un valor inválido para repetir el ciclo
+            }
+
+        } while (numeroSemestre <= 0 || numeroSemestre > 13);
+
+        do {
+            try {
+                promedioAcumulado = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el promedio acumulado:"));
+
+                if (promedioAcumulado <= 0.0 || promedioAcumulado > 5.0) {
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese un promedio valido.");
+                } else {
+                    // Código para cuando el número es válido y positivo
+                    JOptionPane.showMessageDialog(null, "Promedio ingresado: " + promedioAcumulado);
+                }
+
+            } catch (NumberFormatException e) {
+                // Si se ingresa algo que no es un número
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un número válido.");
+                promedioAcumulado = -1; // Se asigna un valor inválido para repetir el ciclo
+            }
+
+        } while (promedioAcumulado <= 0.0 || promedioAcumulado > 5.0);
+
+        do {
+            serial = JOptionPane.showInputDialog("Ingrese el serial del computador portátil:");
+            esValido = serial.matches("\\d+");
+
+            if (!esValido) {
+                JOptionPane.showMessageDialog(null,
+                        "Serial no válido. Debe contener solo números.");
+            }
+        } while (!esValido);
 
         // Aquí asumimos que EstudianteIngenieria y ComputadorPortatil ya están
         // definidos correctamente
         EstudianteIngenieria estudiante = new EstudianteIngenieria(cedula, nombre, apellido, telefono, numeroSemestre,
                 promedioAcumulado, serial);
         vectorIngenieros.add(estudiante);
-        Exportar e = new Exportar();
-        e.ExportarEstInge(vectorIngenieros);
+        Exportar ex = new Exportar();
+        ex.ExportarEstInge(vectorIngenieros);
 
         // Pide más información necesaria para el computador portátil
-        String marca = JOptionPane.showInputDialog("Ingrese la marca del computador portátil:");
-        float tamano = Float
-                .parseFloat(JOptionPane.showInputDialog("Ingrese el tamaño del computador portátil en pulgadas:"));
-        float precio = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el precio del computador portátil:"));
+
+        do {
+            marca = JOptionPane.showInputDialog("Ingrese la marca del computador portátil:");
+            esValida = vc.escadenaValida(marca);
+
+            if (!esValida) {
+                JOptionPane.showMessageDialog(null, "la marca solo puede tener texto");
+            }
+        } while (!esValida);
+
+        do {
+            try {
+                tamano = Float.parseFloat(
+                        JOptionPane.showInputDialog("Ingrese el tamaño del computador portátil en pulgadas:"));
+
+                if (tamano <= 0.0) {
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese un tamaño valido.");
+                } else {
+                    // Código para cuando el número es válido y positivo
+                    JOptionPane.showMessageDialog(null, "Tamaño ingresado: " + tamano);
+                }
+
+            } catch (NumberFormatException e) {
+                // Si se ingresa algo que no es un número
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un tamaño válido.");
+                tamano = -1; // Se asigna un valor inválido para repetir el ciclo
+            }
+
+        } while (tamano <= 0.0);
+        
+        do {
+            try {
+                precio = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el precio del computador portátil:"));
+
+                if (precio <= 0.0) {
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese un precio valido.");
+                } else {
+                    // Código para cuando el número es válido y positivo
+                    JOptionPane.showMessageDialog(null, "precio ingresado: " + precio);
+                }
+
+            } catch (NumberFormatException e) {
+                // Si se ingresa algo que no es un número
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un precio válido.");
+                precio = -1; // Se asigna un valor inválido para repetir el ciclo
+            }
+
+        } while (precio <= 0.0);
+
         ComputadorPortatil portatil = new ComputadorPortatil(serial, marca, tamano, precio, "", "");
 
         portatil.seleccionarSistemaOperativo();
         portatil.seleccionarProcesador();
         vectorPortatil.add(portatil);
+        ex.ExportarComputador(vectorPortatil);
 
         JOptionPane.showMessageDialog(null, "Préstamo para estudiante de ingeniería registrado exitosamente.");
     }
 
     public void registrarPrestamoDiseno() {
-        Importar i = new Importar();
+        String cedula, nombre, apellido, telefono, serial, modalidadEstudio, marca;
+        boolean esValida, esValido;
+        int cantidadAsignaturas = 0;
+        float  tamano, precio;
+
+      
         vectorDisenadores = i.leerEstudianteDiseño();
-        String cedula = JOptionPane.showInputDialog("Ingrese la cédula del estudiante de diseño:");
-        String nombre = JOptionPane.showInputDialog("Ingrese el nombre del estudiante:");
-        String apellido = JOptionPane.showInputDialog("Ingrese el apellido del estudiante:");
-        String telefono = JOptionPane.showInputDialog("Ingrese el teléfono del estudiante:");
-        String modalidadEstudio = JOptionPane.showInputDialog("Ingrese la modalidad de estudio (Virtual/Presencial):");
-        int cantidadAsignaturas = Integer
-                .parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de asignaturas inscritas:"));
-        String serial = JOptionPane.showInputDialog("Ingrese el serial de la tableta gráfica:");
+
+        do {
+            cedula = JOptionPane
+                    .showInputDialog("Ingrese la cédula del estudiante de diseño (que tenga entre 5/10 digitos)");
+            esValido = vc.esnumeroValido(cedula);
+
+            if (!esValido) {
+                JOptionPane.showMessageDialog(null,
+                        "Cédula no válida. Debe contener solo números y tener minímo 5 digitos, maximo 10.");
+            }
+        } while (!esValido);
+
+        do {
+            nombre = JOptionPane.showInputDialog("Ingrese el nombre del estudiante:");
+            esValida = vc.escadenaValida(nombre);
+
+            if (!esValida) {
+                JOptionPane.showMessageDialog(null, "El nombre solo puede tener texto");
+            }
+        } while (!esValida);
+
+        do {
+            apellido = JOptionPane.showInputDialog("Ingrese el apellido del estudiante:");
+            esValida = vc.escadenaValida(apellido);
+
+            if (!esValida) {
+                JOptionPane.showMessageDialog(null, "El apellido solo puede tener texto");
+            }
+        } while (!esValida);
+        do {
+            telefono = JOptionPane.showInputDialog("Ingrese el teléfono del estudiante:");
+            esValido = vc.esnumeroValido(telefono);
+
+            if (!esValido) {
+                JOptionPane.showMessageDialog(null, "Debe contener solo números y tener minímo 7 digitos, maximo 10");
+            }
+        } while (!esValido);
+
+        do {
+            modalidadEstudio = JOptionPane.showInputDialog("Ingrese la modalidad de estudio (Virtual/Presencial):");
+            esValida = vc.escadenaValida(modalidadEstudio);
+
+            if (!esValida) {
+                JOptionPane.showMessageDialog(null, "La modalidad solo puede tener texto");
+            }
+        } while (!esValida);
+        do {
+            try {
+                cantidadAsignaturas = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de asignaturas inscritas:"));
+                if (cantidadAsignaturas <= 0) {
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese una cantidad valida");
+                } else {
+                    // Código para cuando el número es válido y positivo
+                    JOptionPane.showMessageDialog(null, "Número de asignaturas ingresado: " + cantidadAsignaturas);
+                }
+
+            } catch (NumberFormatException e) {
+                // Si se ingresa algo que no es un número
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un número válido.");
+                cantidadAsignaturas = -1; // Se asigna un valor inválido para repetir el ciclo
+            }
+
+        } while (cantidadAsignaturas <= 0);
+
+        do {
+            serial = JOptionPane.showInputDialog("Ingrese el serial de la tableta grafica:");
+            esValido = serial.matches("\\d+");
+
+            if (!esValido) {
+                JOptionPane.showMessageDialog(null,
+                        "Serial no válido. Debe contener solo números.");
+            }
+        } while (!esValido);
 
         EstudianteDiseno estudiante = new EstudianteDiseno(cedula, nombre, apellido, telefono, modalidadEstudio,
                 cantidadAsignaturas, serial);
         vectorDisenadores.add(estudiante);
-        Exportar e = new Exportar();
-        e.ExportarEstDiseño(vectorDisenadores);
+        Exportar ex = new Exportar();
+        ex.ExportarEstDiseño(vectorDisenadores);
 
-        String marca = JOptionPane.showInputDialog("Ingrese la marca de la tableta gráfica:");
-        float tamano = Float
-                .parseFloat(JOptionPane.showInputDialog("Ingrese el tamaño de la tableta gráfica en pulgadas:"));
-        float precio = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el precio de la tableta gráfica:"));
+        do {
+            marca = JOptionPane.showInputDialog("Ingrese la marca de la tableta gráfica:");
+            esValida = vc.escadenaValida(marca);
+
+            if (!esValida) {
+                JOptionPane.showMessageDialog(null, "la marca solo puede tener texto");
+            }
+        } while (!esValida);
+
+        do {
+            try {
+                tamano = Float.parseFloat(
+                        JOptionPane.showInputDialog("Ingrese el tamaño del computador portátil en pulgadas:"));
+
+                if (tamano <= 0.0) {
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese un tamaño valido.");
+                } else {
+                    // Código para cuando el número es válido y positivo
+                    JOptionPane.showMessageDialog(null, "Tamaño ingresado: " + tamano);
+                }
+
+            } catch (NumberFormatException e) {
+                // Si se ingresa algo que no es un número
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un tamaño válido.");
+                tamano = -1; // Se asigna un valor inválido para repetir el ciclo
+            }
+
+        } while (tamano <= 0.0);
+        do {
+            try {
+                precio = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el precio del computador portátil:"));
+
+                if (precio <= 0.0) {
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese un precio valido.");
+                } else {
+                    // Código para cuando el número es válido y positivo
+                    JOptionPane.showMessageDialog(null, "precio ingresado: " + precio);
+                }
+
+            } catch (NumberFormatException e) {
+                // Si se ingresa algo que no es un número
+                JOptionPane.showMessageDialog(null, "Por favor ingrese un precio válido.");
+                precio = -1; // Se asigna un valor inválido para repetir el ciclo
+            }
+
+        } while (precio <= 0.0);
+       
+
+       
         TabletaGrafica tableta = new TabletaGrafica(serial, marca, tamano, precio, "", 0);
 
         tableta.seleccionarAlmacenamiento();
         vectorTableta.add(tableta);
-        e.ExportarTabletaG(vectorTableta);
+        ex.ExportarTabletaG(vectorTableta);
 
         JOptionPane.showMessageDialog(null, "Préstamo para estudiante de diseño registrado exitosamente.");
     }
 
     public void modificarPrestamoIngenieria() {
-        String cedula = JOptionPane.showInputDialog("Ingrese la cédula del estudiante para modificar el préstamo:");
+        String cedula, nuevoTelefono;
+        int nuevoSemestre;
+        float nuevoPromedio;
+        boolean esValido, esValida;
+
+        do {
+            cedula = JOptionPane
+                    .showInputDialog("Ingrese la cédula del estudiante de diseño (que tenga entre 5/10 digitos)");
+            esValido = vc.esnumeroValido(cedula);
+
+            if (!esValido) {
+                JOptionPane.showMessageDialog(null,
+                        "Cédula no válida. Debe contener solo números y tener minímo 5 digitos, maximo 10.");
+            }
+        } while (!esValido);
+        
         EstudianteIngenieria estudiante = buscarPrestamoPorCedulaIngenieria(cedula);
 
         if (estudiante != null) {
-            String nuevoTelefono = JOptionPane.showInputDialog("Ingrese el nuevo teléfono:");
-            int nuevoSemestre = Integer
-                    .parseInt(JOptionPane.showInputDialog("Ingrese el nuevo número de semestre cursado:"));
-            float nuevoPromedio = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el nuevo promedio acumulado:"));
+            
+            do {
+                nuevoTelefono = JOptionPane.showInputDialog("Ingrese el nuevo teléfono:");
+                esValido = vc.esnumeroValido(nuevoTelefono);
+            
+                if (!esValido) {
+                    JOptionPane.showMessageDialog(null,
+                            "telefono no válido. Debe contener solo números y tener minímo 5 digitos, maximo 10.");
+                }
+            } while (!esValido);
+             nuevoSemestre = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo número de semestre cursado:"));
+             do {
+                try {
+                    nuevoSemestre = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo número de semestre cursado:"));
+            
+                    if (nuevoSemestre <= 0 || nuevoSemestre>13) {
+                        JOptionPane.showMessageDialog(null, "Por favor ingrese un número en el rango semestral (1-13).");
+                    } else {
+                        // Código para cuando el número es válido y positivo
+                        JOptionPane.showMessageDialog(null, "numero de semestre ingresado: " + nuevoSemestre);
+                    }
+            
+                } catch (NumberFormatException e) {
+                    // Si se ingresa algo que no es un número
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese solo numeros.");
+                    nuevoSemestre= -1; // Se asigna un valor inválido para repetir el ciclo
+                }
+            
+            } while (nuevoSemestre <= 0 || nuevoSemestre>13);
+            
+            do {
+                try {
+                    nuevoPromedio = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el nuevo promedio acumulado:"));
+            
+                    if (nuevoPromedio <= 0.0) {
+                        JOptionPane.showMessageDialog(null, "Por favor ingrese un promedio valido.");
+                    } else {
+                        // Código para cuando el número es válido y positivo
+                        JOptionPane.showMessageDialog(null, "promedio ingresado: " + nuevoPromedio);
+                    }
+            
+                } catch (NumberFormatException e) {
+                    // Si se ingresa algo que no es un número
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese un promedio válido.");
+                    nuevoPromedio = -1; // Se asigna un valor inválido para repetir el ciclo
+                }
+            
+            } while (nuevoPromedio <= 0.0);
 
             estudiante.setTelefono(nuevoTelefono);
             estudiante.setNumeroSemestre(nuevoSemestre);
@@ -143,7 +411,18 @@ public class GestorPrestamos {
     }
 
     public void buscarPrestamoIngenieria() {
-        String cedula = JOptionPane.showInputDialog("Ingrese la cédula del estudiante para buscar el préstamo:");
+        String cedula;
+        boolean esValido;
+        do {
+            cedula = JOptionPane
+                    .showInputDialog("Ingrese la cédula del estudiante de diseño (que tenga entre 5/10 digitos)");
+            esValido = vc.esnumeroValido(cedula);
+        
+            if (!esValido) {
+                JOptionPane.showMessageDialog(null,
+                        "Cédula no válida. Debe contener solo números y tener minímo 5 digitos, maximo 10.");
+            }
+        } while (!esValido);
         EstudianteIngenieria estudiante = buscarPrestamoPorCedulaIngenieria(cedula);
 
         if (estudiante != null) {
@@ -163,16 +442,61 @@ public class GestorPrestamos {
     }
 
     public void modificarPrestamoDiseno() {
-        String cedula = JOptionPane
-                .showInputDialog("Ingrese la cédula del estudiante de diseño para modificar el préstamo:");
+        String cedula, nuevoTelefono,nuevaModalidad;
+        boolean esValido, esValida;
+        int nuevasAsignaturas;
+        do {
+            cedula = JOptionPane
+                    .showInputDialog("Ingrese la cédula del estudiante de diseño (que tenga entre 5/10 digitos)");
+            esValido = vc.esnumeroValido(cedula);
+        
+            if (!esValido) {
+                JOptionPane.showMessageDialog(null,
+                        "Cédula no válida. Debe contener solo números y tener minímo 7 digitos, maximo 10.");
+            }
+        } while (!esValido);
         EstudianteDiseno estudiante = buscarPrestamoPorCedulaDiseno(cedula);
 
+
         if (estudiante != null) {
-            String nuevoTelefono = JOptionPane.showInputDialog("Ingrese el nuevo teléfono:");
-            String nuevaModalidad = JOptionPane
-                    .showInputDialog("Ingrese la nueva modalidad de estudio (Virtual/Presencial):");
-            int nuevasAsignaturas = Integer
-                    .parseInt(JOptionPane.showInputDialog("Ingrese la nueva cantidad de asignaturas:"));
+           
+            do {
+                nuevoTelefono = JOptionPane.showInputDialog("Ingrese el nuevo teléfono:");
+                esValido = vc.esnumeroValido(nuevoTelefono);
+            
+                if (!esValido) {
+                    JOptionPane.showMessageDialog(null,
+                            "Telefono no válido. Debe contener solo números y tener minímo 7 digitos, maximo 10.");
+                }
+            } while (!esValido);
+           
+            do {
+                nuevaModalidad = JOptionPane.showInputDialog("Ingrese la nueva modalidad de estudio (Virtual/Presencial):");
+                esValida = vc.escadenaValida(nuevaModalidad);
+            
+                if (!esValida) {
+                    JOptionPane.showMessageDialog(null, "La modalidad solo puede tener texto");
+                }
+            } while (!esValida);
+             
+             do {
+                try {
+                    nuevasAsignaturas = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la nueva cantidad de asignaturas:"));
+            
+                    if (nuevasAsignaturas <= 0) {
+                        JOptionPane.showMessageDialog(null, "Por favor ingrese una cantidad valida.");
+                    } else {
+                        // Código para cuando el número es válido y positivo
+                        JOptionPane.showMessageDialog(null, "precio ingresado: " +nuevasAsignaturas);
+                    }
+            
+                } catch (NumberFormatException e) {
+                    // Si se ingresa algo que no es un número
+                    JOptionPane.showMessageDialog(null, "Por favor ingrese una cantidad valida.");
+                    nuevasAsignaturas = -1; // Se asigna un valor inválido para repetir el ciclo
+                }
+            
+            } while (nuevasAsignaturas <= 0);
 
             estudiante.setTelefono(nuevoTelefono);
             estudiante.setModalidadEstudio(nuevaModalidad);
@@ -185,8 +509,18 @@ public class GestorPrestamos {
     }
 
     public void eliminarPrestamoDiseno() {
-        String cedula = JOptionPane
-                .showInputDialog("Ingrese la cédula del estudiante de diseño para eliminar el préstamo:");
+        String cedula;
+        boolean esValido;
+        do {
+            cedula = JOptionPane
+                    .showInputDialog("Ingrese la cédula del estudiante de diseño (que tenga entre 5/10 digitos)");
+            esValido = vc.esnumeroValido(cedula);
+        
+            if (!esValido) {
+                JOptionPane.showMessageDialog(null,
+                        "Cédula no válida. Debe contener solo números y tener minímo 5 digitos, maximo 10.");
+            }
+        } while (!esValido);
         EstudianteDiseno estudiante = buscarPrestamoPorCedulaDiseno(cedula);
 
         if (estudiante != null) {
@@ -199,8 +533,18 @@ public class GestorPrestamos {
     }
 
     public void buscarPrestamoDiseno() {
-        String cedula = JOptionPane
-                .showInputDialog("Ingrese la cédula del estudiante de diseño para buscar el préstamo:");
+        String cedula;
+        boolean esValido;
+        do {
+            cedula = JOptionPane
+                    .showInputDialog("Ingrese la cédula del estudiante de diseño (que tenga entre 5/10 digitos)");
+            esValido = vc.esnumeroValido(cedula);
+        
+            if (!esValido) {
+                JOptionPane.showMessageDialog(null,
+                        "Cédula no válida. Debe contener solo números y tener minímo 5 digitos, maximo 10.");
+            }
+        } while (!esValido);
         EstudianteDiseno estudiante = buscarPrestamoPorCedulaDiseno(cedula);
 
         if (estudiante != null) {

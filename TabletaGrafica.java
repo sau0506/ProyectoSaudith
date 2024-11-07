@@ -16,6 +16,9 @@ public class TabletaGrafica {
         this.almacenamiento = almacenamiento;
         this.peso = peso;
     }
+    public TabletaGrafica(){
+        
+    }
 
     public String getSerial() {
         return serial;

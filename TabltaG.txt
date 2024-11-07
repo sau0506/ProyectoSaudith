@@ -1,0 +1,7 @@
+marca: ipofj
+peso: 0.0
+precio: 444444.0
+tamaño: 35.0
+almacenamiento: 1 TB
+serial: 23456
+---------------------------------------

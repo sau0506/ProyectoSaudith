@@ -4,5 +4,13 @@ apellido: saudith
 telefono: 3223108313
 modalidadEstudio: presencial
 cantidadAsignaturas: 5
-serial: 123456
+serial: 3456
+---------------------------------------
+Cedula: 3456795
+nombre: roberto
+apellido: hernandez
+telefono: 3114567890
+modalidadEstudio: presencial
+cantidadAsignaturas: 5
+serial: 23456
 ---------------------------------------

@@ -153,6 +153,55 @@ public class Importar {
 
         return listaTableta;
     }
+    public ArrayList<ComputadorPortatil> leerComputador() {
+        String rutaArchivo = "Computador.txt";
+        ArrayList<ComputadorPortatil> listaComputador = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
+            String line;
+            ComputadorPortatil obj = null;
+            while ((line = br.readLine()) != null) {
+                if (line.startsWith("Cedula: ")) {
+                    if (obj != null) {
+                        listaComputador.add(obj);
+                    }
+                    obj = new ComputadorPortatil();
+                } else if (line.startsWith("marca: ")) {
+                    if (obj != null) {
+                        obj.setMarca(line.substring(7));
+                    }
+                } else if (line.startsWith("procesador: ")) {
+                    if (obj != null) {
+                        obj.setProcesador(line.substring(6));
+                    }
+                } else if (line.startsWith("precio: ")) {
+                    if (obj != null) {
+                        obj.setPrecio(Float.parseFloat(line.substring(8)));
+                    }
+                } else if (line.startsWith("tamaño: ")) {
+                    if (obj != null) {
+                        obj.setTamano(Float.parseFloat(line.substring(8)));
+                    }
+                } else if (line.startsWith("Sistema operativo: ")) {
+                    if (obj != null) {
+                        obj.setSistemaOperativo((line.substring(19)));
+                    }
+                } else if (line.startsWith("serial: ")) {
+                    if (obj != null) {
+                        obj.setSerial(line.substring(8));
+                        listaComputador.add(obj);
+                        obj = null; // Reiniciar para el siguiente producto
+                    }
+                }
+            }
+
+            System.out.println("Archivo importado correctamente.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return listaComputador;
+    }
+
 
    
     }

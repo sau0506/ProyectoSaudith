@@ -1,0 +1,7 @@
+marca: lenoco
+procesador: Intel® Core™ i5
+precio: 30.0
+tamaño: 4.0
+Sistema operativo: Windows 7
+serial: 12345
+---------------------------------------

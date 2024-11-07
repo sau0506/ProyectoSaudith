@@ -78,4 +78,28 @@ public class Exportar {
         }
 
     }
+    public void ExportarComputador(ArrayList< ComputadorPortatil> list) {
+        if (list.isEmpty()) {
+            // LLenarLista ll = new LLenarLista();
+            // productos = ll.llenarLista(productos);
+        } else {
+            try (FileWriter escriba = new FileWriter("Computador.txt")) {
+                for ( ComputadorPortatil objest : list) {
+                    escriba.write("marca: " + objest.getMarca() + "\n");
+                    escriba.write("procesador: " + objest.getProcesador() + "\n");
+                    escriba.write("precio: " + objest.getPrecio() + "\n");
+                    escriba.write("tamaño: " + objest.getTamano() + "\n");
+                    escriba.write("Sistema operativo: " + objest.getSistemaOperativo() + "\n");
+                    escriba.write("serial: " + objest.getSerial() + "\n");
+                    escriba.write("---------------------------------------\n");
+
+                }
+
+                System.out.println("Archivo exportado correctamente");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }

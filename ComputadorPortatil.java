@@ -17,6 +17,9 @@ public class ComputadorPortatil {
         this.sistemaOperativo = sistemaOperativo;
         this.procesador = procesador;
     }
+    public ComputadorPortatil(){
+        
+    }
 
     public String getSerial() {
         return serial;

@@ -1,0 +1,8 @@
+Cedula: 35870959
+nombre: doris
+apellido: mercado
+telefono: 3203116335
+semestre: 4
+Promedio: 4.5
+serial: 12345
+---------------------------------------
