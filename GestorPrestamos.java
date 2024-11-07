@@ -2,18 +2,57 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class GestorPrestamos {
+    validarcadena vc = new validarcadena();
     private ArrayList<EstudianteIngenieria> vectorIngenieros = new ArrayList<>();
     private ArrayList<EstudianteDiseno> vectorDisenadores = new ArrayList<>();
     private ArrayList<ComputadorPortatil> vectorPortatil = new ArrayList<>();
     private ArrayList<TabletaGrafica> vectorTableta = new ArrayList<>();
 
     public void registrarPrestamoIngenieria() {
+        String cedula, nombre, apellido, telefono;
+        boolean esValida, esValido;
 
-        String cedula = JOptionPane.showInputDialog("Ingrese la cédula del estudiante de ingeniería:");
-        String nombre = JOptionPane.showInputDialog("Ingrese el nombre del estudiante:");
-        String apellido = JOptionPane.showInputDialog("Ingrese el apellido del estudiante:");
-        String telefono = JOptionPane.showInputDialog("Ingrese el teléfono del estudiante:");
+        do {
+            cedula = JOptionPane
+                    .showInputDialog("Ingrese la cédula del estudiante de ingeniería (que tenga entre 7/10 digitos)");
+            esValido = vc.esnumeroValido(cedula);
+
+            if (!esValido) {
+                JOptionPane.showMessageDialog(null,
+                        "Cédula no válida. Debe contener solo números y tener minímo 7 digitos, maximo 10.");
+            }
+        } while (!esValido);
+
+        do {
+            nombre = JOptionPane.showInputDialog("Ingrese el nombre del estudiante:");
+            esValida = vc.escadenaValida(nombre);
+
+            if (!esValida) {
+                JOptionPane.showMessageDialog(null, "El nombre solo puede tener texto");
+            }
+        } while (!esValida);
+
+        do {
+            apellido = JOptionPane.showInputDialog("Ingrese el apellido del estudiante:");
+            esValida = vc.escadenaValida(apellido);
+
+            if (!esValida) {
+                JOptionPane.showMessageDialog(null, "El apellido solo puede tener texto");
+            }
+        } while (!esValida);
+
+   
+        do {
+            telefono = JOptionPane.showInputDialog("Ingrese el teléfono del estudiante:");
+            esValido = vc.esnumeroValido(telefono);
+
+            if (!esValido) {
+                JOptionPane.showMessageDialog(null, "Debe contener solo números y tener minímo 7 digitos, maximo 10");
+            }
+        } while (!esValido);
+
         int numeroSemestre = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el número de semestre cursado:"));
+        
         float promedioAcumulado = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el promedio acumulado:"));
         String serial = JOptionPane.showInputDialog("Ingrese el serial del computador portátil:");
 
@@ -22,7 +61,7 @@ public class GestorPrestamos {
         EstudianteIngenieria estudiante = new EstudianteIngenieria(cedula, nombre, apellido, telefono, numeroSemestre,
                 promedioAcumulado, serial);
         vectorIngenieros.add(estudiante);
-        Exportar e= new Exportar();
+        Exportar e = new Exportar();
         e.ExportarEstInge(vectorIngenieros);
 
         // Pide más información necesaria para el computador portátil
@@ -35,7 +74,6 @@ public class GestorPrestamos {
         portatil.seleccionarSistemaOperativo();
         portatil.seleccionarProcesador();
         vectorPortatil.add(portatil);
-        
 
         JOptionPane.showMessageDialog(null, "Préstamo para estudiante de ingeniería registrado exitosamente.");
     }
