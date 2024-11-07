@@ -3,7 +3,6 @@ import javax.swing.JOptionPane;
 
 public class GestorPrestamos {
     validarcadena vc = new validarcadena();
-    Importar i = new Importar();
     private ArrayList<EstudianteIngenieria> vectorIngenieros = new ArrayList<>();
     private ArrayList<EstudianteDiseno> vectorDisenadores = new ArrayList<>();
     private ArrayList<ComputadorPortatil> vectorPortatil = new ArrayList<>();
@@ -19,7 +18,7 @@ public class GestorPrestamos {
 
         do {
             cedula = JOptionPane
-                    .showInputDialog("Ingrese la cédula del estudiante de ingeniería (que tenga entre 5/10 digitos)");
+                    .showInputDialog("Ingrese la cédula del estudiante de ingeniería.");
             esValido = vc.esnumeroValido(cedula);
 
             if (!esValido) {
@@ -179,16 +178,16 @@ public class GestorPrestamos {
         float  tamano, precio;
 
       
-        vectorDisenadores = i.leerEstudianteDiseño();
+       
 
         do {
             cedula = JOptionPane
-                    .showInputDialog("Ingrese la cédula del estudiante de diseño (que tenga entre 5/10 digitos)");
+                    .showInputDialog("Ingrese la cédula del estudiante de diseño.");
             esValido = vc.esnumeroValido(cedula);
 
             if (!esValido) {
                 JOptionPane.showMessageDialog(null,
-                        "Cédula no válida. Debe contener solo números y tener minímo 5 digitos, maximo 10.");
+                        "Cédula no válida. Debe contener solo números y tener minímo 7 digitos, maximo 10.");
             }
         } while (!esValido);
 
@@ -322,16 +321,15 @@ public class GestorPrestamos {
         String cedula, nuevoTelefono;
         int nuevoSemestre;
         float nuevoPromedio;
-        boolean esValido, esValida;
-
+        boolean esValido;
         do {
             cedula = JOptionPane
-                    .showInputDialog("Ingrese la cédula del estudiante de diseño (que tenga entre 5/10 digitos)");
+                    .showInputDialog("Ingrese la cédula del estudiante de diseño");
             esValido = vc.esnumeroValido(cedula);
 
             if (!esValido) {
                 JOptionPane.showMessageDialog(null,
-                        "Cédula no válida. Debe contener solo números y tener minímo 5 digitos, maximo 10.");
+                        "Cédula no válida. Debe contener solo números y tener minímo 7 digitos, maximo 10.");
             }
         } while (!esValido);
         
@@ -348,7 +346,6 @@ public class GestorPrestamos {
                             "telefono no válido. Debe contener solo números y tener minímo 5 digitos, maximo 10.");
                 }
             } while (!esValido);
-             nuevoSemestre = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo número de semestre cursado:"));
              do {
                 try {
                     nuevoSemestre = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo número de semestre cursado:"));
@@ -372,7 +369,7 @@ public class GestorPrestamos {
                 try {
                     nuevoPromedio = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el nuevo promedio acumulado:"));
             
-                    if (nuevoPromedio <= 0.0) {
+                    if (nuevoPromedio <= 0.0 || nuevoPromedio> 5.0) {
                         JOptionPane.showMessageDialog(null, "Por favor ingrese un promedio valido.");
                     } else {
                         // Código para cuando el número es válido y positivo
@@ -385,11 +382,14 @@ public class GestorPrestamos {
                     nuevoPromedio = -1; // Se asigna un valor inválido para repetir el ciclo
                 }
             
-            } while (nuevoPromedio <= 0.0);
+            } while (nuevoPromedio <= 0.0 || nuevoPromedio> 5.0);
 
             estudiante.setTelefono(nuevoTelefono);
             estudiante.setNumeroSemestre(nuevoSemestre);
             estudiante.setPromedioAcumulado(nuevoPromedio);
+            Exportar ex = new Exportar();
+        ex.ExportarEstInge(vectorIngenieros);
+            ex.ExportarComputador(vectorPortatil);
 
             JOptionPane.showMessageDialog(null, "Préstamo del estudiante de ingeniería modificado exitosamente.");
         } else {
@@ -415,12 +415,12 @@ public class GestorPrestamos {
         boolean esValido;
         do {
             cedula = JOptionPane
-                    .showInputDialog("Ingrese la cédula del estudiante de diseño (que tenga entre 5/10 digitos)");
+                    .showInputDialog("Ingrese la cédula del estudiante de diseño ");
             esValido = vc.esnumeroValido(cedula);
         
             if (!esValido) {
                 JOptionPane.showMessageDialog(null,
-                        "Cédula no válida. Debe contener solo números y tener minímo 5 digitos, maximo 10.");
+                        "Cédula no válida. Debe contener solo números y tener minímo 7 digitos, maximo 10.");
             }
         } while (!esValido);
         EstudianteIngenieria estudiante = buscarPrestamoPorCedulaIngenieria(cedula);
@@ -447,7 +447,7 @@ public class GestorPrestamos {
         int nuevasAsignaturas;
         do {
             cedula = JOptionPane
-                    .showInputDialog("Ingrese la cédula del estudiante de diseño (que tenga entre 5/10 digitos)");
+                    .showInputDialog("Ingrese la cédula del estudiante de diseño ");
             esValido = vc.esnumeroValido(cedula);
         
             if (!esValido) {
@@ -501,7 +501,9 @@ public class GestorPrestamos {
             estudiante.setTelefono(nuevoTelefono);
             estudiante.setModalidadEstudio(nuevaModalidad);
             estudiante.setCantidadAsignaturas(nuevasAsignaturas);
-
+            Exportar ex = new Exportar();
+            ex.ExportarEstDiseño(vectorDisenadores);
+            ex.ExportarTabletaG(vectorTableta);
             JOptionPane.showMessageDialog(null, "Préstamo del estudiante de diseño modificado exitosamente.");
         } else {
             JOptionPane.showMessageDialog(null, "No se encontró un préstamo registrado para la cédula ingresada.");
@@ -513,12 +515,12 @@ public class GestorPrestamos {
         boolean esValido;
         do {
             cedula = JOptionPane
-                    .showInputDialog("Ingrese la cédula del estudiante de diseño (que tenga entre 5/10 digitos)");
+                    .showInputDialog("Ingrese la cédula del estudiante de diseño ");
             esValido = vc.esnumeroValido(cedula);
         
             if (!esValido) {
                 JOptionPane.showMessageDialog(null,
-                        "Cédula no válida. Debe contener solo números y tener minímo 5 digitos, maximo 10.");
+                        "Cédula no válida. Debe contener solo números y tener minímo 7 digitos, maximo 10.");
             }
         } while (!esValido);
         EstudianteDiseno estudiante = buscarPrestamoPorCedulaDiseno(cedula);
@@ -537,12 +539,12 @@ public class GestorPrestamos {
         boolean esValido;
         do {
             cedula = JOptionPane
-                    .showInputDialog("Ingrese la cédula del estudiante de diseño (que tenga entre 5/10 digitos)");
+                    .showInputDialog("Ingrese la cédula del estudiante de diseño");
             esValido = vc.esnumeroValido(cedula);
         
             if (!esValido) {
                 JOptionPane.showMessageDialog(null,
-                        "Cédula no válida. Debe contener solo números y tener minímo 5 digitos, maximo 10.");
+                        "Cédula no válida. Debe contener solo números y tener minímo 7 digitos, maximo 10.");
             }
         } while (!esValido);
         EstudianteDiseno estudiante = buscarPrestamoPorCedulaDiseno(cedula);
